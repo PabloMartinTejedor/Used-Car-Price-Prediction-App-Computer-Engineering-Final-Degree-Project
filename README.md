@@ -2,6 +2,8 @@
 
 # 🚗 Used Car Price Prediction
 
+---
+
 ### Interactive Web Application powered by XGBoost
 
 **Computer Engineering Final Degree Project**
