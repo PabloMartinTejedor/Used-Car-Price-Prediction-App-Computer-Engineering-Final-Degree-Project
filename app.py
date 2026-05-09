@@ -616,7 +616,7 @@ if calcular:
             mercado_valor = f'+{diff_pct:.1f}%' if diff_pct > 0 else f'{diff_pct:.1f}%'
             mercado_color = '#22c55e' if diff_pct > 0 else '#ef4444'
             mercado_dir = 'Por encima de la media' if diff_pct > 0 else 'Por debajo de la media'
-            mercado_ref = f'Media del <span>{model_input}</span>: <span>${media_modelo:,.0f}</span>'
+            mercado_ref = f'Media del <span>{model_input}</span>: <span>{media_modelo:,.0f}$</span>'
         else:
             mercado_valor, mercado_color = '—', '#60a5fa'
             mercado_dir, mercado_ref = 'Sin datos de referencia', ''
