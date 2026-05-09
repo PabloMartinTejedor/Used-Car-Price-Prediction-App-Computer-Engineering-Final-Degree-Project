@@ -230,6 +230,18 @@ div[data-testid="stTickBar"] {
     background: #1d4ed8 !important;
 }
 
+/* Botón secundario (Reiniciar) - amarillo suave */
+[data-testid="stButton"] button[kind="secondary"] {
+    background: #fbbf2422 !important;
+    color: #fbbf24 !important;
+    border: 1px solid #fbbf2466 !important;
+}
+[data-testid="stButton"] button[kind="secondary"]:hover {
+    background: #fbbf2433 !important;
+    color: #fcd34d !important;
+    border: 1px solid #fbbf24 !important;
+}
+
 /* Resultado de la predicción */
 .pred-result {
     background: linear-gradient(135deg, #0f172a, #0d1525);
@@ -436,6 +448,11 @@ st.markdown("""
 # FORMULARIO
 # -----------
 
+# Contador de reset: cuando incrementa, todos los widgets se renuevan completamente
+if 'reset_counter' not in st.session_state:
+    st.session_state['reset_counter'] = 0
+rc = st.session_state['reset_counter']
+
 # === IDENTIDAD DEL VEHÍCULO ===
 st.markdown('<div class="pred-section-title">Identidad del vehículo</div>', unsafe_allow_html=True)
 
@@ -444,7 +461,7 @@ with col_a:
     manufacturer = st.selectbox(
         'Marca',
         ['Seleccionar...'] + manufacturer_cats,
-        key='manufacturer'
+        key=f'manufacturer_{rc}'
     )
 
 with col_b:
@@ -456,7 +473,7 @@ with col_b:
     model_input = st.selectbox(
         'Modelo',
         modelos_disponibles,
-        key='model'
+        key=f'model_{rc}'
     )
 
 # Restricciones según marca
@@ -474,42 +491,47 @@ st.markdown('<div class="pred-section-title">Características del vehículo</div
 col1, col2 = st.columns(2)
 
 with col1:
-    car_age = st.slider('Antigüedad (Años)', 0, 30, 0)
-    mileage = st.number_input('Kilómetros', min_value=0, max_value=500000, value=0, step=1000)
+    car_age = st.slider('Antigüedad (Años)', 0, 30, 0, key=f'car_age_{rc}')
+    mileage = st.number_input('Kilómetros', min_value=0, max_value=500000, value=0, step=1000, key=f'mileage_{rc}')
 
     if es_tesla:
         engine_size = 0.0
-        st.number_input('Motor (Litros)', value=0.0, disabled=True, help='Tesla es eléctrica.')
+        st.number_input('Motor (Litros)', value=0.0, disabled=True, help='Tesla es eléctrica.', key=f'engine_size_tesla_{rc}')
     else:
-        engine_size = st.number_input('Motor (Litros)', min_value=0.0, max_value=8.4, value=0.0, step=0.1)
+        engine_size = st.number_input('Motor (Litros)', min_value=0.0, max_value=8.4, value=0.0, step=0.1, key=f'engine_size_{rc}')
 
     if es_tesla:
         mpg_highway = 0
-        st.number_input('Eficiencia en Autopista (MPG)', value=0, disabled=True, help='Tesla es eléctrica.')
+        st.number_input('Eficiencia en Autopista (MPG)', value=0, disabled=True, help='Tesla es eléctrica.', key=f'mpg_tesla_{rc}')
     else:
-        mpg_highway = st.number_input('Eficiencia en Autopista (MPG)', min_value=0, max_value=80, value=0)
+        mpg_highway = st.number_input('Eficiencia en Autopista (MPG)', min_value=0, max_value=80, value=0, key=f'mpg_highway_{rc}')
 
     int_color = st.selectbox(
         'Color Interior',
-        ['Seleccionar...'] + int_color_cats
+        ['Seleccionar...'] + int_color_cats,
+        key=f'int_color_{rc}'
     )
 
 with col2:
     drivetrain = st.selectbox(
         'Tracción',
-        ['Seleccionar...'] + drive_options
+        ['Seleccionar...'] + drive_options,
+        key=f'drivetrain_{rc}'
     )
     fuel_type = st.selectbox(
         'Combustible',
-        ['Seleccionar...'] + fuel_options
+        ['Seleccionar...'] + fuel_options,
+        key=f'fuel_type_{rc}'
     )
     transmission = st.selectbox(
         'Transmisión',
-        ['Seleccionar...'] + trans_options
+        ['Seleccionar...'] + trans_options,
+        key=f'transmission_{rc}'
     )
     ext_color = st.selectbox(
         'Color Exterior',
-        ['Seleccionar...'] + ext_color_cats
+        ['Seleccionar...'] + ext_color_cats,
+        key=f'ext_color_{rc}'
     )
 
 # === HISTORIAL DEL VEHÍCULO ===
@@ -517,9 +539,9 @@ st.markdown('<div class="pred-section-title">Historial del vehículo</div>', uns
 
 col_h1, col_h2 = st.columns(2)
 with col_h1:
-    accidents = st.selectbox('¿Con Accidente o Daño?', ['Seleccionar...', 'No', 'Sí'])
+    accidents = st.selectbox('¿Con Accidente o Daño?', ['Seleccionar...', 'No', 'Sí'], key=f'accidents_{rc}')
 with col_h2:
-    one_owner = st.selectbox('¿Un solo Dueño?', ['Seleccionar...', 'Sí', 'No'])
+    one_owner = st.selectbox('¿Un solo Dueño?', ['Seleccionar...', 'Sí', 'No'], key=f'one_owner_{rc}')
 
 st.markdown('<div style="height:20px"></div>', unsafe_allow_html=True)
 
@@ -527,7 +549,17 @@ st.markdown('<div style="height:20px"></div>', unsafe_allow_html=True)
 # BOTÓN DE PREDICCIÓN
 # --------------------
 
-calcular = st.button('CALCULAR EL PRECIO ESTIMADO →', type='primary', use_container_width=True)
+col_btn1, col_btn2 = st.columns([3, 1])
+
+with col_btn1:
+    calcular = st.button('CALCULAR EL PRECIO ESTIMADO', type='primary', use_container_width=True)
+
+with col_btn2:
+    reiniciar = st.button('REINICIAR', type='secondary', use_container_width=True)
+
+if reiniciar:
+    st.session_state['reset_counter'] = rc + 1
+    st.rerun()
 
 if calcular:
     # ---- Validación de campos vacíos ----
@@ -622,15 +654,15 @@ if calcular:
         # ---- Avisos ----
         avisos = []
         if mileage > 350000:
-            avisos.append('Kilómetros superiores a 350.000 km — fuera del rango del dataset. La predicción puede ser menos fiable.')
+            avisos.append('Kilómetros superiores a 350.000 km — Fuera del rango del dataset. La predicción puede ser menos fiable.')
         if mpg_highway > 60:
-            avisos.append('Eficiencia en autopista superior a 60 MPG — fuera del rango habitual. La predicción puede ser menos fiable.')
+            avisos.append('Eficiencia en autopista superior a 60 MPG — Fuera del rango habitual. La predicción puede ser menos fiable.')
 
         if avisos:
             msgs = ''.join([f'<div class="pred-warning-msg">{a}</div>' for a in avisos])
             st.markdown(f'''
             <div class="pred-warning">
-                <div class="pred-warning-title">⚠️ Aviso de fiabilidad</div>
+                <div class="pred-warning-title">⚠️ Aviso de Fiabilidad</div>
                 {msgs}
             </div>
             ''', unsafe_allow_html=True)
