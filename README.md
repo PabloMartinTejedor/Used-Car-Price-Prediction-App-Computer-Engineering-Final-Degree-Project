@@ -12,7 +12,6 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Live-brightgreen?style=for-the-badge)]()
 
 ### 🌐 [**Try the App Live**](https://pablomartin-tfg.streamlit.app)
 
@@ -39,24 +38,14 @@ The model is exposed through an interactive web application built with **Streaml
 
 ---
 
-## 🖼️ Application Preview
-
-### Input Form
-
-![Input Form](docs/screenshot_inputs.png)
-
-### Prediction Result
-
-![Prediction Result](docs/screenshot_result.png)
-
----
-
 ## 📊 Model Performance
 
 The XGBoost regressor was selected as the winning model after benchmarking against six alternatives, including Linear Regression, Random Forest, Gradient Boosting, LightGBM, and a Multi-Layer Perceptron neural network. Final results on the test set:
 
+<div align="center">
+
 | Metric | Value |
-|---|---|
+|:---:|:---:|
 | **R² (Coefficient of Determination)** | **95.60%** |
 | **MAE (Mean Absolute Error)** | **$2,453** |
 | **MAPE (Mean Absolute Percentage Error)** | **8.10%** |
@@ -66,29 +55,16 @@ The XGBoost regressor was selected as the winning model after benchmarking again
 | **Test set size** | 111,989 |
 | **Total models trained during optimization** | 4,453 |
 
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|---|---|
-| **Language** | Python 3.11 |
-| **Machine Learning** | XGBoost, scikit-learn |
-| **Data Manipulation** | pandas, NumPy |
-| **Model Serialization** | joblib |
-| **Web Framework** | Streamlit |
-| **Deployment** | Streamlit Community Cloud |
-| **Version Control** | Git, GitHub |
+</div>
 
 ---
 
 ## 📂 Project Structure
 
-- `app.py` — Main Streamlit application
-- `requirements.txt` — Python dependencies
-- `xgb_opt.pkl` — Trained XGBoost model (9.2 MB)
-- `app_artifacts/` — Encoders and reference dictionaries
-- `docs/` — Application screenshots
+- `app.py` — Main Streamlit application.
+- `xgb_opt.pkl` — Trained XGBoost model.
+- `app_artifacts` — Encoders and reference dictionaries.
+- `requirements.txt` — Python dependencies.
 - `.gitignore`
 - `README.md`
 
@@ -109,38 +85,6 @@ The application will open automatically in your default browser at `http://local
 
 ---
 
-## 🎓 Academic Context
-
-This application is the deployment of the experimental work conducted in the Final Degree Project:
-
-> **"Predicting the Price of Used Cars: A Machine Learning Approach"**
-> Author: **Pablo Martín Tejedor**
-> Degree: **Double Bachelor in Computer Engineering and Business Administration**
-> University: **CUNEF Universidad**
-> Academic Year: **2025-2026**
-> Advisor: **Juan Maroñas Molano**
-
----
-
 ## ⚠️ Disclaimer
 
 This application is an **academic demonstration**. Predictions are based on a public dataset of US-based listings (Cars.com, April 2023) and may not generalize accurately to vehicles outside that market or sold under different economic conditions.
-
----
-
-## 👤 Author
-
-**Pablo Martín Tejedor**
-
-🎓 Double Degree in Computer Engineering and Business Administration · CUNEF Universidad
-📍 Madrid, Spain
-
-[![GitHub](https://img.shields.io/badge/GitHub-PabloMartinTejedor-181717?style=for-the-badge&logo=github)](https://github.com/PabloMartinTejedor)
-
----
-
-<div align="center">
-
-⭐ **If you found this project interesting, consider giving it a star** ⭐
-
-</div>
