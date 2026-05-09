@@ -12,7 +12,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 
 
-### 🌐 [**Try the App Live**](https://pablomartin-tfg.streamlit.app)
+### 🌐 [**Try the App Live**](https://pablomartint-tfg.streamlit.app)
 
 </div>
 
