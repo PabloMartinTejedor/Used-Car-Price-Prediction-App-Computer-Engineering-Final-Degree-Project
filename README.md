@@ -1,7 +1,6 @@
 <div align="center">
 
 <h1>🚗 Used Car Price Prediction</h1>
----
 
 ### Interactive Web Application powered by XGBoost
 
