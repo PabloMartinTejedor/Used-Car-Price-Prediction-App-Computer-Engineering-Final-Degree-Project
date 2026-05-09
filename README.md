@@ -11,6 +11,7 @@
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.1-FF6600?style=for-the-badge&logo=xgboost&logoColor=white)](https://xgboost.readthedocs.io/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 
+
 ### 🌐 [**Try the App Live**](https://pablomartin-tfg.streamlit.app)
 
 </div>
@@ -40,20 +41,26 @@ The model is exposed through an interactive web application built with **Streaml
 
 The XGBoost regressor was selected as the winning model after benchmarking against six alternatives, including Linear Regression, Random Forest, Gradient Boosting, LightGBM, and a Multi-Layer Perceptron neural network. Final results on the test set:
 
-<div align="center">
-
 | Metric | Value |
 |:---:|:---:|
-| **R² (Coefficient of Determination)** | **95.60%** |
-| **MAE (Mean Absolute Error)** | **$2,453** |
-| **MAPE (Mean Absolute Percentage Error)** | **8.10%** |
-| **Number of features** | 13 |
-| **Training set size** | 522,610 |
-| **Validation set size** | 111,988 |
-| **Test set size** | 111,989 |
-| **Total models trained during optimization** | 4,453 |
+| R² (Coefficient of Determination) | **95.60%** |
+| MAE (Mean Absolute Error) | **$2,453** |
+| MAPE (Mean Absolute Percentage Error) | **8.10%** |
+| Number of features | 13 |
+| Training set size | 522,610 |
+| Validation set size | 111,988 |
+| Test set size | 111,989 |
+| Total models trained during optimization | 4,453 |
 
-</div>
+---
+
+## 🧠 How the Model Works
+
+1. **Data ingestion** — Each input introduced by the user is transformed into a 13-dimensional feature vector matching the model's training schema.
+2. **Categorical encoding** — Categorical variables are encoded using ordinal encoding. The vehicle model uses target encoding based on the average log-price observed during training.
+3. **Prediction** — The XGBoost regressor outputs a log-price prediction, recovered to dollars via the exponential function.
+4. **Confidence interval** — A symmetric ±8.10% margin (matching the model's MAPE) communicates the natural uncertainty of the estimation.
+5. **Comparative analysis** — Three reference cards show how the predicted price, mileage and age position the vehicle relative to the model's average in the training set.
 
 ---
 
