@@ -20,9 +20,9 @@
 
 ## 📌 Overview
 
-This project is the deployment-ready demonstration of a **Computer Engineering Final Degree Project** focused on predicting **used car prices** using machine learning. An XGBoost regressor was trained on a dataset of approximately **746,587 real listings** scraped from Cars.com, achieving an **R² of 95.60%** and a mean absolute error of **$2,453**.
+This project is the deployment-ready demonstration of a **Computer Engineering Final Degree Project** focused on predicting **used car prices** using machine learning. An XGBoost regressor was trained on a dataset of approximately **746,587 real listings** scraped from `Cars.com`, achieving an **R² of 95.60%** and a mean absolute error of **$2,453**.
 
-The model is exposed through an interactive web application built with **Streamlit**. Users introduce the characteristics of a vehicle (make, model, mileage, age, engine size, transmission, etc.) and obtain an instant price estimation along with comparative cards that contextualize the prediction against the market average for that specific model.
+The model is exposed through an interactive web application built with **Streamlit**. Users introduce the characteristics of a vehicle (model, mileage, age, engine size, transmission, etc.) and obtain an instant price estimation along with comparative cards that contextualize the prediction against the market average for that specific model.
 
 ---
 
@@ -33,7 +33,6 @@ The model is exposed through an interactive web application built with **Streaml
 - **Dynamic model dropdown** that updates based on the selected manufacturer.
 - **Comparative dashboard** showing how the predicted price, mileage and age relate to the model's market average.
 - **Reliability warnings** when input values fall outside the dataset's training range.
-- **Modern dark UI** designed for clarity and professional presentation.
 
 ---
 
@@ -41,26 +40,30 @@ The model is exposed through an interactive web application built with **Streaml
 
 The XGBoost regressor was selected as the winning model after benchmarking against six alternatives, including Linear Regression, Random Forest, Gradient Boosting, LightGBM, and a Multi-Layer Perceptron neural network. Final results on the test set:
 
+<div align="center">
+
 | Metric | Value |
 |:---:|:---:|
-| R² (Coefficient of Determination) | **95.60%** |
-| MAE (Mean Absolute Error) | **$2,453** |
-| MAPE (Mean Absolute Percentage Error) | **8.10%** |
-| Number of features | 13 |
-| Training set size | 522,610 |
-| Validation set size | 111,988 |
-| Test set size | 111,989 |
-| Total models trained during optimization | 4,453 |
+| **R² (Coefficient of Determination)** | **95.60%** |
+| **MAE (Mean Absolute Error)** | **$2,453** |
+| **MAPE (Mean Absolute Percentage Error)** | **8.10%** |
+| **Number of features** | 13 |
+| **Training set size** | 522,610 |
+| **Validation set size** | 111,988 |
+| **Test set size** | 111,989 |
+| **Total models trained during optimization** | 4,453 |
+
+</div>
 
 ---
 
 ## 🧠 How the Model Works
 
-1. **Data ingestion** — Each input introduced by the user is transformed into a 13-dimensional feature vector matching the model's training schema.
-2. **Categorical encoding** — Categorical variables are encoded using ordinal encoding. The vehicle model uses target encoding based on the average log-price observed during training.
+1. **Data Ingestion** — Each input introduced by the user is transformed into a 13-dimensional feature vector matching the model's training schema.
+2. **Categorical Encoding** — Categorical variables are encoded using ordinal encoding. The vehicle model uses target encoding based on the average log-price observed during training.
 3. **Prediction** — The XGBoost regressor outputs a log-price prediction, recovered to dollars via the exponential function.
-4. **Confidence interval** — A symmetric ±8.10% margin (matching the model's MAPE) communicates the natural uncertainty of the estimation.
-5. **Comparative analysis** — Three reference cards show how the predicted price, mileage and age position the vehicle relative to the model's average in the training set.
+4. **Confidence Interval** — A symmetric ±8.10% margin (matching the model's MAPE) communicates the natural uncertainty of the estimation.
+5. **Comparative Analysis** — Three reference cards show how the predicted price, mileage and age position the vehicle relative to the model's average in the training set.
 
 ---
 
