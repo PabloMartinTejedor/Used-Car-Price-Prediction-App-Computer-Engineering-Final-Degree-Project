@@ -95,4 +95,4 @@ The application will open automatically in your default browser at `http://local
 
 ## ⚠️ Disclaimer
 
-This application is an **academic demonstration**. Predictions are based on a public dataset of US-based listings (Cars.com, April 2023) and may not generalize accurately to vehicles outside that market or sold under different economic conditions.
+This application is an **academic demonstration**. Predictions are based on a public dataset of US-based listings (`Cars.com`, April 2023) and may not generalize accurately to vehicles outside that market or sold under different economic conditions.
