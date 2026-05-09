@@ -628,10 +628,10 @@ if calcular:
             diff_km_pct = (diff_km / media_mileage) * 100 if media_mileage > 0 else 0
             if diff_km < 0:
                 km_valor, km_color = f'{diff_km_pct:.1f}%', '#22c55e'
-                km_dir, km_icon = 'Menos mi que la media', '🟢'
+                km_dir, km_icon = 'Menos millas que la media', '🟢'
             else:
                 km_valor, km_color = f'+{diff_km_pct:.1f}%', '#ef4444'
-                km_dir, km_icon = 'Más mi que la media', '🔴'
+                km_dir, km_icon = 'Más millas que la media', '🔴'
             km_ref = f'Media del <span>{model_input}</span>: <span>{media_mileage:,.0f} mi</span>'
         else:
             km_valor, km_color, km_dir, km_ref, km_icon = '—', '#60a5fa', 'Sin datos de referencia', '', '📏'
