@@ -492,7 +492,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     car_age = st.slider('Antigüedad (Años)', 0, 30, 0, key=f'car_age_{rc}')
-    mileage = st.number_input('Kilómetros', min_value=0, max_value=500000, value=0, step=1000, key=f'mileage_{rc}')
+    mileage = st.number_input('Millas', min_value=0, max_value=500000, value=0, step=1000, key=f'mileage_{rc}')
 
     if es_tesla:
         engine_size = 0.0
@@ -621,18 +621,18 @@ if calcular:
             mercado_valor, mercado_color = '—', '#60a5fa'
             mercado_dir, mercado_ref = 'Sin datos de referencia', ''
 
-        # ---- Tarjeta 2: Kilómetros ----
+        # ---- Tarjeta 2: Millas ----
         media_mileage = mileage_medio_por_modelo.get(model_input, None)
         if media_mileage:
             diff_km = mileage - media_mileage
             diff_km_pct = (diff_km / media_mileage) * 100 if media_mileage > 0 else 0
             if diff_km < 0:
                 km_valor, km_color = f'{diff_km_pct:.1f}%', '#22c55e'
-                km_dir, km_icon = 'Menos km que la media', '🟢'
+                km_dir, km_icon = 'Menos mi que la media', '🟢'
             else:
                 km_valor, km_color = f'+{diff_km_pct:.1f}%', '#ef4444'
-                km_dir, km_icon = 'Más km que la media', '🔴'
-            km_ref = f'Media del <span>{model_input}</span>: <span>{media_mileage:,.0f} km</span>'
+                km_dir, km_icon = 'Más mi que la media', '🔴'
+            km_ref = f'Media del <span>{model_input}</span>: <span>{media_mileage:,.0f} mi</span>'
         else:
             km_valor, km_color, km_dir, km_ref, km_icon = '—', '#60a5fa', 'Sin datos de referencia', '', '📏'
 
@@ -654,7 +654,7 @@ if calcular:
         # ---- Avisos ----
         avisos = []
         if mileage > 350000:
-            avisos.append('Kilómetros superiores a 350.000 km — Fuera del rango del dataset. La predicción puede ser menos fiable.')
+            avisos.append('Millas superiores a 350.000 mi — Fuera del rango del dataset. La predicción puede ser menos fiable.')
         if mpg_highway > 60:
             avisos.append('Eficiencia en autopista superior a 60 MPG — Fuera del rango habitual. La predicción puede ser menos fiable.')
 
@@ -680,7 +680,7 @@ if calcular:
                     <div class="pred-result-car">{manufacturer} {model_input}</div>
                     <div class="pred-result-details">
                         <span>{car_age} años</span> · 
-                        <span>{mileage:,} km</span> · 
+                        <span>{mileage:,} mi</span> · 
                         Motor <span>{engine_size:.1f}L</span> ·
                         <span>{fuel_type}</span><br>
                         <span>{drivetrain}</span> · 
@@ -699,7 +699,7 @@ if calcular:
                 </div>
                 <div class="pred-card pred-card-up">
                     <div class="pred-card-icon">{km_icon}</div>
-                    <div class="pred-card-title">KILÓMETROS</div>
+                    <div class="pred-card-title">MILLAS</div>
                     <div class="pred-card-value" style="color:{km_color}">{km_valor}</div>
                     <div class="pred-card-sub">{km_dir}<br>{km_ref}</div>
                 </div>
