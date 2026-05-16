@@ -382,6 +382,9 @@ def cargar_recursos():
     modelo = joblib.load('xgb_opt.pkl')
     media_global = joblib.load('app_artifacts/media_global.pkl')
 
+    log_price_mean = joblib.load('app_artifacts/log_price_mean.pkl')
+    log_price_std  = joblib.load('app_artifacts/log_price_std.pkl')
+
     manufacturer_cats = joblib.load('app_artifacts/manufacturer_cats.pkl')
     transmission_cats = joblib.load('app_artifacts/transmission_cats.pkl')
     drivetrain_cats   = joblib.load('app_artifacts/drivetrain_cats.pkl')
@@ -396,12 +399,14 @@ def cargar_recursos():
     mileage_medio = joblib.load('app_artifacts/mileage_medio_por_modelo.pkl')
     age_medio     = joblib.load('app_artifacts/age_medio_por_modelo.pkl')
 
-    return (modelo, media_global, manufacturer_cats, transmission_cats,
+    return (modelo, media_global, log_price_mean, log_price_std,
+            manufacturer_cats, transmission_cats,
             drivetrain_cats, fuel_type_cats, ext_color_cats, int_color_cats,
             manufacturer_to_models, encoding_dict,
             precio_medio, mileage_medio, age_medio)
 
-(modelo, media_global, manufacturer_cats, transmission_cats,
+(modelo, media_global, LOG_PRICE_MEAN, LOG_PRICE_STD,
+ manufacturer_cats, transmission_cats,
  drivetrain_cats, fuel_type_cats, ext_color_cats, int_color_cats,
  manufacturer_to_models, encoding_dict,
  precio_medio_por_modelo, mileage_medio_por_modelo, age_medio_por_modelo) = cargar_recursos()
@@ -423,7 +428,7 @@ RESTRICCIONES = {
                      'fuel_type': ['Diesel', 'Flex Fuel', 'Gasolina', 'Hibrido', 'Plug-in Hybrid']},
     'Lexus':         {'fuel_type': ['Gasolina', 'Hibrido']},
     'Lincoln':       {'transmission': ['Automatica', 'CVT']},
-    'Mercedes-Benz': {'transmission': ['Automatica', 'Manual', 'Semi-automatica']},
+    'Mercedes-Benz': {'transmission': ['Automatica', 'Manual']},
     'Porsche':       {'drivetrain': ['4WD', 'AWD', 'RWD']},
     'RAM':           {'drivetrain': ['4WD', 'FWD', 'RWD']},
     'Subaru':        {'drivetrain': ['AWD', 'RWD']},
@@ -485,6 +490,14 @@ trans_options   = restricciones.get('transmission', transmission_cats)
 
 es_tesla = (manufacturer == 'Tesla')
 
+# Función auxiliar: si hay 1 sola opción, la preselecciona automáticamente
+def opciones_con_default(opciones):
+    """Devuelve la lista de opciones para el selectbox.
+    Si solo hay una opción válida, se omite 'Seleccionar...' y se preselecciona."""
+    if len(opciones) == 1:
+        return opciones  # Sin "Seleccionar...", solo la opción única
+    return ['Seleccionar...'] + opciones
+
 # === CARACTERÍSTICAS DEL VEHÍCULO ===
 st.markdown('<div class="pred-section-title">Características del vehículo</div>', unsafe_allow_html=True)
 
@@ -515,17 +528,17 @@ with col1:
 with col2:
     drivetrain = st.selectbox(
         'Tracción',
-        ['Seleccionar...'] + drive_options,
+        opciones_con_default(drive_options),
         key=f'drivetrain_{rc}'
     )
     fuel_type = st.selectbox(
         'Combustible',
-        ['Seleccionar...'] + fuel_options,
+        opciones_con_default(fuel_options),
         key=f'fuel_type_{rc}'
     )
     transmission = st.selectbox(
         'Transmisión',
-        ['Seleccionar...'] + trans_options,
+        opciones_con_default(trans_options),
         key=f'transmission_{rc}'
     )
     ext_color = st.selectbox(
@@ -606,8 +619,10 @@ if calcular:
         }])
 
         # ---- Predicción ----
-        precio = float(np.exp(modelo.predict(entrada)[0]))
-        margen = precio * 0.081
+        pred_std = float(modelo.predict(entrada)[0])
+        log_price = pred_std * LOG_PRICE_STD + LOG_PRICE_MEAN
+        precio = float(np.exp(log_price))
+        margen = precio * 0.0809
 
         # ---- Tarjeta 1: Posición en el mercado ----
         media_modelo = precio_medio_por_modelo.get(model_input, None)
